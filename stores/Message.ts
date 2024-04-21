@@ -1,4 +1,6 @@
-import encoder from "@nem035/gpt-3-encoder";
+import { getEncoding } from "js-tiktoken";
+
+const encoder = getEncoding("cl100k_base");
 
 export const countTokens = (text: string) => encoder.encode(text).length;
 
@@ -7,12 +9,6 @@ export interface Message {
   content: string;
   role: "user" | "assistant" | "system";
   loading?: boolean;
-}
-
-// Helper function to estimate tokens
-function estimateTokens(content: string): number {
-  const words = content.trim().split(/\s+/).length;
-  return Math.ceil(words * (100 / 75));
 }
 
 // Truncate messages
@@ -35,7 +31,7 @@ export function truncateMessages(
   let startIdx = 0;
 
   if (messages[0].role === "system") {
-    accumulatedTokens = estimateTokens(messages[0].content);
+    accumulatedTokens = countTokens(messages[0].content);
     ret.push(messages[0]);
     startIdx = 1;
   }
@@ -43,7 +39,7 @@ export function truncateMessages(
   // Try to truncate messages as is
   for (let i = messages.length - 1; i >= startIdx; i--) {
     const message = messages[i];
-    const tokens = estimateTokens(message.content);
+    const tokens = countTokens(message.content);
     if (accumulatedTokens + tokens > targetTokens) {
       break;
     }
