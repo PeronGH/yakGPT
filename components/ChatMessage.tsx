@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Avatar,
+  CopyButton,
   createStyles,
   getStylesRef,
   MantineTheme,
@@ -9,7 +10,14 @@ import {
 } from "@mantine/core";
 
 import { useChatStore } from "@/stores/ChatStore";
-import { IconEdit, IconRepeat, IconSettings, IconX } from "@tabler/icons-react";
+import {
+  IconCopy,
+  IconCopyCheck,
+  IconEdit,
+  IconRepeat,
+  IconSettings,
+  IconX,
+} from "@tabler/icons-react";
 import MessageDisplay from "./MessageDisplay";
 
 import UserIcon from "./UserIcon";
@@ -106,8 +114,6 @@ const useStyles = createStyles((theme: MantineTheme) => ({
 
     [`@media (min-width: ${theme.breakpoints.sm})`]: {
       marginTop: theme.spacing.sm,
-      flexDirection: "row",
-      alignItems: "center",
     },
     "> button": {
       marginTop: theme.spacing.xs,
@@ -211,6 +217,17 @@ export default function ChatDisplay({ message }: { message: Message }) {
             >
               <IconX />
             </ActionIcon>
+            <CopyButton value={message.content}>
+              {({ copied, copy }) => (
+                <ActionIcon
+                  className={cx(classes.actionIcon, classes.topOfMessage)}
+                  onClick={copy}
+                  color="gray"
+                >
+                  {copied ? <IconCopyCheck /> : <IconCopy />}
+                </ActionIcon>
+              )}
+            </CopyButton>
           </div>
         </div>
       </div>
