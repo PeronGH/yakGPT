@@ -69,16 +69,14 @@ const useStyles = createStyles((theme: MantineTheme) => ({
     width: "100%",
   },
   userMessageContainer: {
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[8]
-        : theme.colors.gray[1],
+    backgroundColor: theme.colorScheme === "dark"
+      ? theme.colors.dark[8]
+      : theme.colors.gray[1],
   },
   botMessageContainer: {
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[7]
-        : theme.colors.gray[2],
+    backgroundColor: theme.colorScheme === "dark"
+      ? theme.colors.dark[7]
+      : theme.colors.gray[2],
   },
   userMessage: {
     // All children that are textarea should have color white
@@ -160,13 +158,13 @@ export default function ChatDisplay({ message }: { message: Message }) {
         classes.messageContainer,
         message.role === "user"
           ? classes.userMessageContainer
-          : classes.botMessageContainer
+          : classes.botMessageContainer,
       )}
     >
       <div
         className={cx(
           classes.message,
-          message.role === "user" ? classes.userMessage : classes.botMessage
+          message.role === "user" ? classes.userMessage : classes.botMessage,
         )}
       >
         <div className={classes.messageWrapper}>
@@ -179,13 +177,16 @@ export default function ChatDisplay({ message }: { message: Message }) {
             <MediaQuery smallerThan="md" styles={{ display: "none" }}>
               <div className={classes.topOfMessage}>
                 <Avatar size="sm">
-                  {message.role === "system" ? (
-                    <IconSettings />
-                  ) : message.role === "assistant" ? (
-                    <AssistantIcon width={px("1.5rem")} height={px("1.5rem")} />
-                  ) : (
-                    <UserIcon width={px("1.5rem")} height={px("1.5rem")} />
-                  )}
+                  {message.role === "system"
+                    ? <IconSettings />
+                    : message.role === "assistant"
+                    ? (
+                      <AssistantIcon
+                        width={px("1.5rem")}
+                        height={px("1.5rem")}
+                      />
+                    )
+                    : <UserIcon width={px("1.5rem")} height={px("1.5rem")} />}
                 </Avatar>
               </div>
             </MediaQuery>

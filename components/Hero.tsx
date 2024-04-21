@@ -1,15 +1,15 @@
 import {
-  createStyles,
-  Image,
-  Container,
-  Title,
   Button,
+  Container,
+  createStyles,
   Group,
-  Text,
+  Image,
   List,
-  ThemeIcon,
-  rem,
   Modal,
+  rem,
+  Text,
+  ThemeIcon,
+  Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBrandGithub, IconCheck } from "@tabler/icons-react";
@@ -97,8 +97,8 @@ export default function Hero() {
               }
             >
               <List.Item>
-                <b>Run locally on browser</b> – no need to install any
-                applications
+                <b>Run locally on browser</b>{" "}
+                – no need to install any applications
               </List.Item>
               <List.Item>
                 <b>Faster than the official UI</b> – connect directly to the API
@@ -107,8 +107,8 @@ export default function Hero() {
                 <b>Easy mic integration</b> – no more typing!
               </List.Item>
               <List.Item>
-                <b>Use your own API key</b> – ensure your data privacy and
-                security
+                <b>Use your own API key</b>{" "}
+                – ensure your data privacy and security
               </List.Item>
             </List>
 

@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import { useChatStore } from "@/stores/ChatStore";
 import {
   ActionIcon,
-  useMantineTheme,
-  Textarea,
   Group,
   px,
+  Textarea,
+  useMantineTheme,
 } from "@mantine/core";
 import { IconArrowRight, IconPlayerStop, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";

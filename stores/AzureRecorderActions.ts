@@ -37,7 +37,7 @@ export const startRecording = async (router: NextRouter) => {
       textUpdates = [];
     }
   };
-  const { submit_debounce_ms: submitDebounce  } = get().settingsForm;
+  const { submit_debounce_ms: submitDebounce } = get().settingsForm;
   const debouncedPersistText = debounce(persistText, submitDebounce);
 
   const updateText = (text: string, recognitionComplete: boolean) => {
@@ -50,7 +50,10 @@ export const startRecording = async (router: NextRouter) => {
     }
   };
 
-  const updateAndEventuallyPersistText = (text: string, recognitionComplete: boolean) => {
+  const updateAndEventuallyPersistText = (
+    text: string,
+    recognitionComplete: boolean,
+  ) => {
     updateText(text, recognitionComplete);
     if (submitDebounce) {
       debouncedPersistText(text);
@@ -70,7 +73,7 @@ export const startRecording = async (router: NextRouter) => {
 
   const speechConfig = speechsdk.SpeechConfig.fromSubscription(
     apiKeyAzure,
-    apiKeyAzureRegion
+    apiKeyAzureRegion,
   );
 
   const { auto_detect_language_azure, spoken_language_code_azure } =
@@ -92,7 +95,9 @@ export const startRecording = async (router: NextRouter) => {
 
   recognizer.recognized = (s, e) => {
     let resultText = e.result.text.trim();
-    if (e.result.reason == speechsdk.ResultReason.RecognizedSpeech && resultText) {
+    if (
+      e.result.reason == speechsdk.ResultReason.RecognizedSpeech && resultText
+    ) {
       console.log(`RECOGNIZED: Text=${resultText}`);
       updateAndEventuallyPersistText(resultText, true);
     } else if (e.result.reason == speechsdk.ResultReason.NoMatch) {
@@ -108,7 +113,7 @@ export const startRecording = async (router: NextRouter) => {
       console.log(`"CANCELED: ErrorCode=${e.errorCode}`);
       console.log(`"CANCELED: ErrorDetails=${e.errorDetails}`);
       console.log(
-        "CANCELED: Did you set the speech resource key and region values?"
+        "CANCELED: Did you set the speech resource key and region values?",
       );
     }
 

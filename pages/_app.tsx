@@ -23,8 +23,8 @@ export default function App(props: AppProps) {
   const colorScheme = useChatStore((state) => state.colorScheme);
 
   const toggleColorScheme = (value?: ColorScheme) => {
-    const nextColorScheme =
-      value || (colorScheme === "dark" ? "light" : "dark");
+    const nextColorScheme = value ||
+      (colorScheme === "dark" ? "light" : "dark");
     setColorScheme(nextColorScheme);
   };
 
@@ -100,10 +100,9 @@ export default function App(props: AppProps) {
             asideOffsetBreakpoint="sm"
             styles={(theme) => ({
               main: {
-                backgroundColor:
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[8]
-                    : theme.colors.gray[0],
+                backgroundColor: theme.colorScheme === "dark"
+                  ? theme.colors.dark[8]
+                  : theme.colors.gray[0],
               },
             })}
           >

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Textarea, TextareaProps } from "@mantine/core";
 
 interface AutoResizingTextareaProps
@@ -28,9 +28,9 @@ const AutoResizingTextarea: React.FC<AutoResizingTextareaProps> = ({
           minRows,
           Math.floor(
             textarea.scrollHeight /
-              parseInt(getComputedStyle(textarea).lineHeight)
-          )
-        )
+              parseInt(getComputedStyle(textarea).lineHeight),
+          ),
+        ),
       );
       textarea.style.padding = "14px 0";
       textarea.style.height = `${

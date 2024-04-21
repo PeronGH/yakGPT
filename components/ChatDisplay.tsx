@@ -63,16 +63,14 @@ const useStyles = createStyles((theme: MantineTheme) => ({
     width: "100%",
   },
   userMessageContainer: {
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[8]
-        : theme.colors.gray[1],
+    backgroundColor: theme.colorScheme === "dark"
+      ? theme.colors.dark[8]
+      : theme.colors.gray[1],
   },
   botMessageContainer: {
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[7]
-        : theme.colors.gray[2],
+    backgroundColor: theme.colorScheme === "dark"
+      ? theme.colors.dark[7]
+      : theme.colors.gray[2],
   },
   userMessage: {
     // All children that are textarea should have color white
@@ -125,11 +123,10 @@ const ChatDisplay = () => {
   const lastMessage = activeChat?.messages[activeChat.messages.length - 1];
 
   const scrolledToBottom = () => {
-    const winScroll =
-      document.body.scrollTop || document.documentElement.scrollTop;
+    const winScroll = document.body.scrollTop ||
+      document.documentElement.scrollTop;
 
-    const height =
-      document.documentElement.scrollHeight -
+    const height = document.documentElement.scrollHeight -
       document.documentElement.clientHeight;
 
     // allow inaccuracy by adding some

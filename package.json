@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fmt": "deno fmt ./**/*.ts ./**/*.tsx --ignore=node_modules"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",

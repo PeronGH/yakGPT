@@ -1,10 +1,10 @@
 import {
   Card,
-  Text,
-  Group,
   createStyles,
   getStylesRef,
+  Group,
   rem,
+  Text,
 } from "@mantine/core";
 import { MouseEventHandler } from "react";
 import Image from "next/image";
@@ -14,10 +14,9 @@ const useStyles = createStyles((theme) => ({
   card: {
     position: "relative",
     height: rem(280),
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
+    backgroundColor: theme.colorScheme === "dark"
+      ? theme.colors.dark[6]
+      : theme.colors.gray[0],
 
     [`&:hover .${getStylesRef("image")}`]: {
       transform: "scale(1.03)",

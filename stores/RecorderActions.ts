@@ -8,6 +8,7 @@ import { useChatStore } from "./ChatStore";
 import { delMessage, pushMessage, setApiState } from "./ChatActions";
 import { submitMessage } from "./SubmitMessage";
 import { NextRouter } from "next/router";
+import { OPENAI_HOST } from "./Constants";
 
 const get = useChatStore.getState;
 const set = useChatStore.setState;
@@ -79,7 +80,7 @@ export const startRecording = async (router: NextRouter) => {
       recorder = new window.OpusMediaRecorder(
         stream,
         options,
-        workerOptions
+        workerOptions,
       ) as MediaRecorder;
 
       recorder.addEventListener("dataavailable", onRecordingDataAvailable);
@@ -127,7 +128,7 @@ export const destroyRecorder = async () => {
 };
 
 export const submitAudio = async (newMessage: Message, blob: Blob) => {
-  const apiUrl = "https://api.openai.com/v1/audio/transcriptions";
+  const apiUrl = `https://${OPENAI_HOST}/v1/audio/transcriptions`;
 
   const { apiKey, settingsForm } = get();
   const {

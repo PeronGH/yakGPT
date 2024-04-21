@@ -19,7 +19,7 @@ function estimateTokens(content: string): number {
 export function truncateMessages(
   messages: Message[],
   modelMaxTokens: number,
-  userMaxTokens: number
+  userMaxTokens: number,
 ): Message[] {
   if (messages.length <= 1) return messages;
 

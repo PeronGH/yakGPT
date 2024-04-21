@@ -53,7 +53,8 @@ const characters = {
   "Expert in Everything": {
     shortDescription: "Ask me anything!",
     avatar: expert,
-    prompt: `I want you to act as a a world-leading expert in whatever I'm about to ask you.`,
+    prompt:
+      `I want you to act as a a world-leading expert in whatever I'm about to ask you.`,
   },
   Therapist: {
     shortDescription: "Techniques to change your beliefs",
@@ -194,7 +195,8 @@ Ask me what my idea is.`,
   Philosopher: {
     shortDescription: "Ethics, logic, and reasoning",
     avatar: philosopher,
-    prompt: `I want you to act as a philosopher. I will provide some topics or questions related to the study of philosophy, and it will be your job to explore these concepts in depth. This could involve conducting research into various philosophical theories, proposing new ideas or finding creative solutions for solving complex problems. My first request is "I need help developing an ethical framework for decision making."`,
+    prompt:
+      `I want you to act as a philosopher. I will provide some topics or questions related to the study of philosophy, and it will be your job to explore these concepts in depth. This could involve conducting research into various philosophical theories, proposing new ideas or finding creative solutions for solving complex problems. My first request is "I need help developing an ethical framework for decision making."`,
   },
   "Debate Champion": {
     shortDescription: "Articulate and quick-witted",
@@ -230,9 +232,12 @@ function CardsCarousel({ children }: { children: React.ReactNode }) {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-  const slides = React.Children.map(children, (theirChildren, index) => (
-    <Carousel.Slide key={index}>{theirChildren}</Carousel.Slide>
-  ));
+  const slides = React.Children.map(
+    children,
+    (theirChildren, index) => (
+      <Carousel.Slide key={index}>{theirChildren}</Carousel.Slide>
+    ),
+  );
 
   return (
     <Carousel
@@ -255,7 +260,7 @@ export default function NewChatCarousel() {
 
   return (
     <Container py="xl">
-      <h2 style={{ textAlign: "center" }}> Choose a prompt...</h2>
+      <h2 style={{ textAlign: "center" }}>Choose a prompt...</h2>
       <CardsCarousel>
         {Object.keys(characters).map((key) => {
           // @ts-ignore
@@ -271,12 +276,11 @@ export default function NewChatCarousel() {
                 addChat(router);
                 submitMessage({
                   id: uuidv4(),
-                  content:
-                    character.prompt ||
+                  content: character.prompt ||
                     scriptBase({
                       character: key,
-                      characterDescription:
-                        character.characterDescription || "",
+                      characterDescription: character.characterDescription ||
+                        "",
                     }),
                   role: "system",
                 });
@@ -294,7 +298,7 @@ export default function NewChatCarousel() {
           textAlign: "center",
         }}
       >
-        <h2> Or start by simply typing below</h2>
+        <h2>Or start by simply typing below</h2>
         <IconArrowDown style={{ marginLeft: "0.5rem" }} />
       </div>
     </Container>

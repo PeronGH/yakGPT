@@ -1,15 +1,15 @@
 import {
-  createStyles,
-  Header,
-  Group,
   ActionIcon,
-  Container,
   Burger,
+  Container,
+  createStyles,
+  Divider,
+  Group,
+  Header,
+  MediaQuery,
+  px,
   rem,
   Text,
-  MediaQuery,
-  Divider,
-  px,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconBrandGithub, IconPlus } from "@tabler/icons-react";
@@ -61,18 +61,16 @@ const useStyles = createStyles((theme) => ({
     padding: `${rem(8)} ${rem(12)}`,
     borderRadius: theme.radius.sm,
     textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
+    color: theme.colorScheme === "dark"
+      ? theme.colors.dark[0]
+      : theme.colors.gray[7],
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
 
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+      backgroundColor: theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
     },
   },
 
@@ -120,16 +118,18 @@ export default function MuHeader({ children }: any) {
           styles={{ width: "100%", justifyContent: "center" }}
         >
           <Group spacing={5} className={classes.social} noWrap c="dimmed">
-            {activeChat?.chosenCharacter ? (
-              <>
-                <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-                  <Text size="sm">{activeChat?.chosenCharacter}</Text>
-                </MediaQuery>
-                <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-                  <Divider size="xs" orientation="vertical" />
-                </MediaQuery>
-              </>
-            ) : null}
+            {activeChat?.chosenCharacter
+              ? (
+                <>
+                  <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+                    <Text size="sm">{activeChat?.chosenCharacter}</Text>
+                  </MediaQuery>
+                  <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+                    <Divider size="xs" orientation="vertical" />
+                  </MediaQuery>
+                </>
+              )
+              : null}
             <Text size="sm">{modelInfo.displayName}</Text>
             {isKnownModel && (
               <>

@@ -4,17 +4,17 @@ import {
   ActionIcon,
   Box,
   Burger,
+  createStyles,
+  getStylesRef,
   Group,
   MediaQuery,
   Modal,
   Navbar,
+  px,
+  rem,
   Text,
   TextInput,
   Tooltip,
-  createStyles,
-  getStylesRef,
-  px,
-  rem,
   useMantineColorScheme,
 } from "@mantine/core";
 import { upperFirst, useDisclosure, useMediaQuery } from "@mantine/hooks";
@@ -63,10 +63,9 @@ const useStyles = createStyles((theme) => ({
     alignItems: "center",
     textDecoration: "none",
     fontSize: theme.fontSizes.sm,
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[1]
-        : theme.colors.gray[7],
+    color: theme.colorScheme === "dark"
+      ? theme.colors.dark[1]
+      : theme.colors.gray[7],
     padding: `${theme.spacing.xs} ${theme.spacing.xs}`,
     borderRadius: theme.radius.sm,
     fontWeight: 500,
@@ -74,10 +73,9 @@ const useStyles = createStyles((theme) => ({
     flexGrow: "1 !important",
 
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+      backgroundColor: theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
 
       [`& .${getStylesRef("icon")}`]: {
@@ -88,10 +86,9 @@ const useStyles = createStyles((theme) => ({
 
   linkIcon: {
     ref: getStylesRef("icon"),
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[2]
-        : theme.colors.gray[6],
+    color: theme.colorScheme === "dark"
+      ? theme.colors.dark[2]
+      : theme.colors.gray[6],
     marginRight: theme.spacing.sm,
   },
 
@@ -160,10 +157,9 @@ export default function NavbarSimple() {
       key={chat.id}
       sx={{
         position: "relative",
-        maskImage:
-          chat.id === activeChatId
-            ? ""
-            : "linear-gradient(to right, black 80%, transparent 110%)",
+        maskImage: chat.id === activeChatId
+          ? ""
+          : "linear-gradient(to right, black 80%, transparent 110%)",
       }}
     >
       <a

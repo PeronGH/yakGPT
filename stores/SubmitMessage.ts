@@ -79,17 +79,23 @@ export const submitMessage = async (message: Message) => {
     return;
   }
 
-  const updateTokens = (promptTokensUsed: number, completionTokensUsed: number) => {
+  const updateTokens = (
+    promptTokensUsed: number,
+    completionTokensUsed: number,
+  ) => {
     const activeModel = get().settingsForm.model;
-    const {prompt: promptCost, completion: completionCost} = getModelInfo(activeModel).costPer1kTokens;
+    const { prompt: promptCost, completion: completionCost } =
+      getModelInfo(activeModel).costPer1kTokens;
     set((state) => ({
       apiState: "idle",
       chats: state.chats.map((c) => {
         if (c.id === chat.id) {
           c.promptTokensUsed = (c.promptTokensUsed || 0) + promptTokensUsed;
-          c.completionTokensUsed = (c.completionTokensUsed || 0) + completionTokensUsed;
-          c.costIncurred =
-            (c.costIncurred || 0) + (promptTokensUsed / 1000) * promptCost + (completionTokensUsed / 1000) * completionCost;
+          c.completionTokensUsed = (c.completionTokensUsed || 0) +
+            completionTokensUsed;
+          c.costIncurred = (c.costIncurred || 0) +
+            (promptTokensUsed / 1000) * promptCost +
+            (completionTokensUsed / 1000) * completionCost;
         }
         return c;
       }),
@@ -115,7 +121,7 @@ export const submitMessage = async (message: Message) => {
         ttsText: (state.ttsText || "") + content,
         chats: updateChatMessages(state.chats, chat.id, (messages) => {
           const assistantMessage = messages.find(
-            (m) => m.id === assistantMsgId
+            (m) => m.id === assistantMsgId,
           );
           if (assistantMessage) {
             assistantMessage.content += content;
@@ -129,7 +135,7 @@ export const submitMessage = async (message: Message) => {
         apiState: "idle",
         chats: updateChatMessages(state.chats, chat.id, (messages) => {
           const assistantMessage = messages.find(
-            (m) => m.id === assistantMsgId
+            (m) => m.id === assistantMsgId,
           );
           if (assistantMessage) {
             assistantMessage.loading = false;
@@ -154,7 +160,7 @@ export const submitMessage = async (message: Message) => {
       });
       // Run abortCurrentRequest to remove the loading indicator
       abortCurrentRequest();
-    }
+    },
   );
 
   const findChatTitle = async () => {
@@ -174,13 +180,16 @@ export const submitMessage = async (message: Message) => {
     ) {
       const msg = {
         id: uuidv4(),
-        content: `Describe the following conversation snippet in 3 words or less.
+        content:
+          `Describe the following conversation snippet in 3 words or less.
               >>>
               Hello
-              ${chat.messages
-                .slice(1)
-                .map((m) => m.content)
-                .join("\n")}
+              ${
+            chat.messages
+              .slice(1)
+              .map((m) => m.content)
+              .join("\n")
+          }
               >>>
                 `,
         role: "system",
@@ -207,7 +216,7 @@ export const submitMessage = async (message: Message) => {
             }),
           }));
         },
-        updateTokens
+        updateTokens,
       );
     }
   };

@@ -178,7 +178,9 @@ export const useChatStore = create<ChatState>()(
     name: "chat-store-v23",
     partialize: (state) =>
       Object.fromEntries(
-        Object.entries(state).filter(([key]) => !excludeFromState.includes(key))
+        Object.entries(state).filter(([key]) =>
+          !excludeFromState.includes(key)
+        ),
       ),
-  })
+  }),
 );

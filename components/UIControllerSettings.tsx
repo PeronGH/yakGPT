@@ -33,13 +33,13 @@ function MenuItem({
 
 export default function UIController() {
   const showTextDuringPTT = useChatStore((state) => state.showTextDuringPTT);
-  const modelChoicesChat =
-    useChatStore((state) => state.modelChoicesChat) || [];
+  const modelChoicesChat = useChatStore((state) => state.modelChoicesChat) ||
+    [];
   const settingsForm = useChatStore((state) => state.settingsForm);
   const modelChoiceSTT = useChatStore((state) => state.modelChoiceSTT);
   const modelChoiceTTS = useChatStore((state) => state.modelChoiceTTS);
   const autoSendStreamingSTT = useChatStore(
-    (state) => state.autoSendStreamingSTT
+    (state) => state.autoSendStreamingSTT,
   );
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function UIController() {
 
   // Filter out models that end with a date eg. gpt-3-1234
   const primaryModels = modelChoicesChat.filter(
-    (model) => !model.match(/-\d{4}$/)
+    (model) => !model.match(/-\d{4}$/),
   );
   const menuStructure = [
     {

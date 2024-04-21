@@ -152,7 +152,7 @@ export const refreshModels = async () => {
     // Use only models that start with gpt-3.5 or gpt-4
     update({
       modelChoicesChat: modelIDs.filter(
-        (id) => id.startsWith("gpt-3.5") || id.startsWith("gpt-4")
+        (id) => id.startsWith("gpt-3.5") || id.startsWith("gpt-4"),
       ),
     });
   } catch (error) {

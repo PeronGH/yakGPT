@@ -1,18 +1,18 @@
 import { useChatStore } from "@/stores/ChatStore";
 import {
-  TextInput,
+  Accordion,
+  Autocomplete,
+  Box,
   Button,
   Group,
-  Box,
-  Text,
-  Slider,
-  Select,
-  Tabs,
-  Autocomplete,
-  Switch,
   NumberInput,
   px,
-  Accordion,
+  Select,
+  Slider,
+  Switch,
+  Tabs,
+  Text,
+  TextInput,
   Title,
 } from "@mantine/core";
 import ISO6391 from "iso-639-1";
@@ -34,8 +34,8 @@ function getLanguages() {
 }
 
 export default function SettingsModal({ close }: { close: () => void }) {
-  const modelChoicesChat =
-    useChatStore((state) => state.modelChoicesChat) || [];
+  const modelChoicesChat = useChatStore((state) => state.modelChoicesChat) ||
+    [];
   const [voices11Labs, setVoices11Labs] = useState<ElevenLabs.Voice[]>([]);
   const [voicesAzure, setVoicesAzure] = useState<Azure.Voice[]>([]);
   const [voiceStylesAzure, setVoiceStylesAzure] = useState<string[]>([]);
@@ -73,12 +73,14 @@ export default function SettingsModal({ close }: { close: () => void }) {
         try {
           if (value === "") return null;
           const parsed = JSON.parse(value);
-          if (typeof parsed !== "object" || Array.isArray(parsed))
+          if (typeof parsed !== "object" || Array.isArray(parsed)) {
             throw new Error();
+          }
           for (const key in parsed) {
             const num = parsed[key];
-            if (!Number.isFinite(num) || num < -100 || num > 100)
+            if (!Number.isFinite(num) || num < -100 || num > 100) {
               throw new Error();
+            }
           }
           return null;
         } catch {
@@ -103,8 +105,8 @@ export default function SettingsModal({ close }: { close: () => void }) {
   useEffect(() => {
     setVoiceStylesAzure(
       voicesAzure.find(
-        (voice) => voice.shortName === form.values.voice_id_azure
-      )?.styleList || []
+        (voice) => voice.shortName === form.values.voice_id_azure,
+      )?.styleList || [],
     );
   }, [voicesAzure, form.values.voice_id_azure]);
 
@@ -155,7 +157,8 @@ export default function SettingsModal({ close }: { close: () => void }) {
                       label: model,
                       value: model,
                     }))}
-                  ></Select>
+                  >
+                  </Select>
                   <Text mt="lg" size="sm">
                     Sampling temperature ({form.values.temperature})
                   </Text>
@@ -166,8 +169,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
                     step={0.1}
                     precision={1}
                     onChange={(value) =>
-                      form.setFieldValue("temperature", value)
-                    }
+                      form.setFieldValue("temperature", value)}
                   />
                   <Switch
                     mt="xl"
@@ -176,9 +178,8 @@ export default function SettingsModal({ close }: { close: () => void }) {
                     onChange={(event) =>
                       form.setFieldValue(
                         "auto_title",
-                        event.currentTarget.checked
-                      )
-                    }
+                        event.currentTarget.checked,
+                      )}
                   />
                 </Accordion.Panel>
               </Accordion.Item>
@@ -228,8 +229,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
                     max={4000}
                     step={1}
                     onChange={(value) =>
-                      form.setFieldValue("max_tokens", value)
-                    }
+                      form.setFieldValue("max_tokens", value)}
                   />
 
                   <Text mt="lg" size="sm">
@@ -242,8 +242,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
                     step={0.1}
                     precision={1}
                     onChange={(value) =>
-                      form.setFieldValue("presence_penalty", value)
-                    }
+                      form.setFieldValue("presence_penalty", value)}
                   />
 
                   <Text mt="lg" size="sm">
@@ -256,8 +255,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
                     step={0.1}
                     precision={1}
                     onChange={(value) =>
-                      form.setFieldValue("frequency_penalty", value)
-                    }
+                      form.setFieldValue("frequency_penalty", value)}
                   />
 
                   <TextInput
@@ -278,7 +276,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
                     onChange={(event) => {
                       form.setFieldValue(
                         "auto_detect_language",
-                        event.currentTarget.checked
+                        event.currentTarget.checked,
                       );
                     }}
                   />
@@ -291,7 +289,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
                       form.setFieldValue("spoken_language", value!);
                       form.setFieldValue(
                         "spoken_language_code",
-                        langDisplayToCode[value!]
+                        langDisplayToCode[value!],
                       );
                     }}
                     data={getLanguages().map((lang) => lang.label)}
@@ -332,7 +330,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
               onChange={(event) => {
                 form.setFieldValue(
                   "auto_detect_language_azure",
-                  event.currentTarget.checked
+                  event.currentTarget.checked,
                 );
               }}
             />
@@ -342,7 +340,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
               value={form.values.spoken_language_azure}
               onChange={(value) => {
                 const key = Object.entries(azureCandidateLanguages).find(
-                  ([, v]) => v === value
+                  ([, v]) => v === value,
                 );
                 if (key) {
                   form.setFieldValue("spoken_language_code_azure", key[0]);
@@ -371,7 +369,7 @@ export default function SettingsModal({ close }: { close: () => void }) {
               onChange={(value) => {
                 setVoiceStylesAzure(
                   voicesAzure.find((voice) => voice.shortName === value)
-                    ?.styleList || []
+                    ?.styleList || [],
                 );
                 form.setFieldValue("voice_id_azure", value!);
               }}
@@ -379,17 +377,18 @@ export default function SettingsModal({ close }: { close: () => void }) {
                 label: voice.shortName,
                 value: voice.shortName,
               }))}
-            ></Autocomplete>
+            >
+            </Autocomplete>
             <Select
               label="Voice style"
               disabled={voiceStylesAzure.length === 0}
               placeholder="Select a voice style"
               value={form.values.spoken_language_style}
               onChange={(value) =>
-                form.setFieldValue("spoken_language_style", value!)
-              }
+                form.setFieldValue("spoken_language_style", value!)}
               data={voiceStylesAzure}
-            ></Select>
+            >
+            </Select>
           </Tabs.Panel>
           <Tabs.Panel value="11labs" pt="xs">
             <Select
@@ -402,7 +401,8 @@ export default function SettingsModal({ close }: { close: () => void }) {
                 label: voice.name,
                 value: voice.voice_id,
               }))}
-            ></Select>
+            >
+            </Select>
           </Tabs.Panel>
           <Group position="apart" mt="lg">
             <Button
@@ -413,9 +413,13 @@ export default function SettingsModal({ close }: { close: () => void }) {
             >
               Reset
             </Button>
-            <Button type="submit"
-              disabled={!!form.values.voice_id_openai && !validateVoice(form.values.voice_id_openai)}
-            >Save</Button>
+            <Button
+              type="submit"
+              disabled={!!form.values.voice_id_openai &&
+                !validateVoice(form.values.voice_id_openai)}
+            >
+              Save
+            </Button>
           </Group>
         </Tabs>
       </form>

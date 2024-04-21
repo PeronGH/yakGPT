@@ -62,7 +62,7 @@ export const genAudio = async ({
         color: "red",
       });
       throw new Error(
-        `Network response was not ok ${response.ok} ${message} ${response.status}`
+        `Network response was not ok ${response.ok} ${message} ${response.status}`,
       );
     }
     const blob = await response.blob();

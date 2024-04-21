@@ -1,9 +1,10 @@
 import _ from "lodash";
 import { IncomingMessage } from "http";
 import https from "https";
-import { Message, truncateMessages, countTokens } from "./Message";
+import { countTokens, Message, truncateMessages } from "./Message";
 import { getModelInfo } from "./Model";
 import axios from "axios";
+import { OPENAI_HOST } from "./Constants";
 
 export function assertIsError(e: any): asserts e is Error {
   if (!(e instanceof Error)) {
@@ -29,7 +30,7 @@ async function fetchFromAPI(endpoint: string, key: string) {
 
 export async function testKey(key: string): Promise<boolean> {
   try {
-    const res = await fetchFromAPI("https://api.openai.com/v1/models", key);
+    const res = await fetchFromAPI(`https://${OPENAI_HOST}/v1/models`, key);
     return res.status === 200;
   } catch (e) {
     if (axios.isAxiosError(e)) {
@@ -43,7 +44,7 @@ export async function testKey(key: string): Promise<boolean> {
 
 export async function fetchModels(key: string): Promise<string[]> {
   try {
-    const res = await fetchFromAPI("https://api.openai.com/v1/models", key);
+    const res = await fetchFromAPI(`https://${OPENAI_HOST}/v1/models`, key);
     return res.data.data.map((model: any) => model.id);
   } catch (e) {
     return [];
@@ -55,11 +56,11 @@ export async function _streamCompletion(
   apiKey: string,
   abortController?: AbortController,
   callback?: ((res: IncomingMessage) => void) | undefined,
-  errorCallback?: ((res: IncomingMessage, body: string) => void) | undefined
+  errorCallback?: ((res: IncomingMessage, body: string) => void) | undefined,
 ) {
   const req = https.request(
     {
-      hostname: "api.openai.com",
+      hostname: OPENAI_HOST,
       port: 443,
       path: "/v1/chat/completions",
       method: "POST",
@@ -81,7 +82,7 @@ export async function _streamCompletion(
         return;
       }
       callback?.(res);
-    }
+    },
   );
 
   req.write(payload);
@@ -122,7 +123,7 @@ export async function streamCompletion(
   endCallback?:
     | ((promptTokensUsed: number, completionTokensUsed: number) => void)
     | undefined,
-  errorCallback?: ((res: IncomingMessage, body: string) => void) | undefined
+  errorCallback?: ((res: IncomingMessage, body: string) => void) | undefined,
 ) {
   const modelInfo = getModelInfo(params.model);
 
@@ -130,11 +131,11 @@ export async function streamCompletion(
   const submitMessages = truncateMessages(
     messages,
     modelInfo.maxTokens,
-    params.max_tokens
+    params.max_tokens,
   );
 
   const submitParams = Object.fromEntries(
-    Object.entries(params).filter(([key]) => paramKeys.includes(key))
+    Object.entries(params).filter(([key]) => paramKeys.includes(key)),
   );
 
   const payload = JSON.stringify({
@@ -189,14 +190,14 @@ export async function streamCompletion(
     res.on("end", () => {
       const [loadingMessages, loadedMessages] = _.partition(
         submitMessages,
-        "loading"
+        "loading",
       );
       const promptTokensUsed = countTokens(
-        loadedMessages.map((m) => m.content).join("\n")
+        loadedMessages.map((m) => m.content).join("\n"),
       );
 
       const completionTokensUsed = countTokens(
-        loadingMessages.map((m) => m.content).join("\n") + buffer
+        loadingMessages.map((m) => m.content).join("\n") + buffer,
       );
 
       endCallback?.(promptTokensUsed, completionTokensUsed);
@@ -208,7 +209,7 @@ export async function streamCompletion(
     apiKey,
     abortController,
     successCallback,
-    errorCallback
+    errorCallback,
   );
 }
 
@@ -218,21 +219,23 @@ export const OPENAI_TTS_VOICES = [
   "fable",
   "onyx",
   "nova",
-  "shimmer"
+  "shimmer",
 ] as const;
 
-export const validateVoice = (voice: any): voice is typeof OPENAI_TTS_VOICES[number] => {
+export const validateVoice = (
+  voice: any,
+): voice is typeof OPENAI_TTS_VOICES[number] => {
   if (!OPENAI_TTS_VOICES.includes(voice)) {
     return false;
   }
   return true;
-}
+};
 
 export async function genAudio({
   text,
   key,
   voice,
-  model
+  model,
 }: {
   text: string;
   key: string;
@@ -246,15 +249,15 @@ export async function genAudio({
     model,
     input: text,
     voice,
-    response_format: 'mp3',
+    response_format: "mp3",
   });
-  const res = await fetch("https://api.openai.com/v1/audio/speech", {
+  const res = await fetch(`https://${OPENAI_HOST}/v1/audio/speech`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${key}`,
     },
-    body
+    body,
   });
 
   return URL.createObjectURL(await res.blob());

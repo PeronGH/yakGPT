@@ -25,14 +25,17 @@ interface VarsShape {
   voiceId: string | undefined;
   voiceStyle?: string | undefined;
   model?: string | undefined;
-  genAudio: typeof genAudioAzure | typeof genAudio11Labs | typeof genAudioOpenAI;
+  genAudio:
+    | typeof genAudioAzure
+    | typeof genAudio11Labs
+    | typeof genAudioOpenAI;
 }
 
 const getVars = (): VarsShape => {
   const state = get();
 
   switch (state.modelChoiceTTS) {
-    case 'azure':
+    case "azure":
       return {
         apiKey: state.apiKeyAzure,
         apiKeyRegion: state.apiKeyAzureRegion,
@@ -40,13 +43,13 @@ const getVars = (): VarsShape => {
         voiceStyle: state.settingsForm.spoken_language_style,
         genAudio: genAudioAzure,
       };
-    case '11labs':
+    case "11labs":
       return {
         apiKey: state.apiKey11Labs,
         voiceId: state.settingsForm.voice_id || DEFAULT_11LABS_VOICE,
         genAudio: genAudio11Labs,
       };
-    case 'openai':
+    case "openai":
       return {
         apiKey: state.apiKey,
         voiceId: state.settingsForm.voice_id_openai || DEFAULT_OPENAI_VOICE,
@@ -54,7 +57,7 @@ const getVars = (): VarsShape => {
         genAudio: genAudioOpenAI,
       };
     default:
-      throw new Error('invalid modelChoiceTTS');
+      throw new Error("invalid modelChoiceTTS");
   }
 };
 
@@ -119,7 +122,7 @@ export const initPlayback = () => {
     }
 
     const firstIdleChunk = get().playerAudioQueue.findIndex(
-      (chunk) => chunk.state === "text"
+      (chunk) => chunk.state === "text",
     );
 
     if (firstIdleChunk !== -1 && playerApiState === "idle") {
@@ -148,16 +151,16 @@ export const initPlayback = () => {
 
 export const playAudio = (idx: number) => {
   const { playerIdx, playerAudioQueue, playerRef, playerState } = get();
-  if (playerState === 'playing') {
-    console.log('player is still playing, skipping playing');
+  if (playerState === "playing") {
+    console.log("player is still playing, skipping playing");
     return;
   }
   if (playerIdx + 1 >= playerAudioQueue.length) {
-    console.log('next chunk is not queued, skipping playing');
+    console.log("next chunk is not queued, skipping playing");
     return;
   }
-  if (playerAudioQueue[playerIdx + 1].state !== 'audio') {
-    console.log('next chunk does not have audio, skipping playing');
+  if (playerAudioQueue[playerIdx + 1].state !== "audio") {
+    console.log("next chunk does not have audio, skipping playing");
     return;
   }
   set({
@@ -173,7 +176,8 @@ export const playAudio = (idx: number) => {
 };
 
 const fetchAudio = async (idx: number) => {
-  const { apiKey, apiKeyRegion, voiceId, voiceStyle, genAudio, model } = getVars();
+  const { apiKey, apiKeyRegion, voiceId, voiceStyle, genAudio, model } =
+    getVars();
   const { playerAudioQueue } = get();
 
   const chunk = playerAudioQueue[idx];

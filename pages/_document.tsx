@@ -36,11 +36,13 @@ export default class _Document extends Document {
           <script
             async
             src="https://cdn.jsdelivr.net/npm/opus-media-recorder@latest/OpusMediaRecorder.umd.js"
-          ></script>
+          >
+          </script>
           <script
             async
             src="https://cdn.jsdelivr.net/npm/opus-media-recorder@latest/encoderWorker.umd.js"
-          ></script>
+          >
+          </script>
         </body>
       </Html>
     );

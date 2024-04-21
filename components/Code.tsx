@@ -45,20 +45,22 @@ const Code = ({
     <div className={classes.code}>
       <div className={classes.icons}>
         <CopyToClipboard text={children}>
-          {isCopied ? (
-            <ActionIcon variant="transparent" size="sm" color="gray">
-              <IconCopyCheck />
-            </ActionIcon>
-          ) : (
-            <ActionIcon
-              variant="transparent"
-              size="sm"
-              onClick={() => setCopied()}
-              color="gray"
-            >
-              <IconCopy />
-            </ActionIcon>
-          )}
+          {isCopied
+            ? (
+              <ActionIcon variant="transparent" size="sm" color="gray">
+                <IconCopyCheck />
+              </ActionIcon>
+            )
+            : (
+              <ActionIcon
+                variant="transparent"
+                size="sm"
+                onClick={() => setCopied()}
+                color="gray"
+              >
+                <IconCopy />
+              </ActionIcon>
+            )}
         </CopyToClipboard>
       </div>
 

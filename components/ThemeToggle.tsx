@@ -1,22 +1,21 @@
 import {
-  createStyles,
-  UnstyledButton,
-  Text,
   Center,
-  useMantineColorScheme,
+  createStyles,
   Group,
-  rem,
   px,
+  rem,
+  Text,
+  UnstyledButton,
+  useMantineColorScheme,
 } from "@mantine/core";
 import { upperFirst } from "@mantine/hooks";
 import { IconMoon, IconSun } from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
   control: {
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[8]
-        : theme.colors.gray[0],
+    backgroundColor: theme.colorScheme === "dark"
+      ? theme.colors.dark[8]
+      : theme.colors.gray[0],
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -31,10 +30,9 @@ const useStyles = createStyles((theme) => ({
     height: rem(28),
     width: rem(28),
     borderRadius: rem(28),
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.gray[4]
-        : theme.colors.dark[4],
+    backgroundColor: theme.colorScheme === "dark"
+      ? theme.colors.gray[4]
+      : theme.colors.dark[4],
     color: theme.colorScheme === "dark" ? theme.black : theme.colors.blue[2],
   },
 

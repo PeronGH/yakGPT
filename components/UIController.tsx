@@ -1,13 +1,13 @@
 import { useChatStore } from "@/stores/ChatStore";
-import { Button, Loader, px, createStyles, MantineTheme } from "@mantine/core";
+import { Button, createStyles, Loader, MantineTheme, px } from "@mantine/core";
 import {
   IconMicrophone,
   IconMicrophoneOff,
-  IconX,
-  IconPlayerPlay,
   IconPlayerPause,
-  IconVolumeOff,
+  IconPlayerPlay,
   IconVolume,
+  IconVolumeOff,
+  IconX,
 } from "@tabler/icons-react";
 import ChatTextInput from "./ChatTextInput";
 import { useRouter } from "next/router";
@@ -144,18 +144,18 @@ const ChatInput = () => {
             }
           }}
         >
-          {audioState === "recording" ? (
-            <Loader
-              size="3em"
-              variant="bars"
-              color="white"
-              sx={{ opacity: 1 }}
-            />
-          ) : audioState === "transcribing" ? (
-            <Loader size="2em" color="white" sx={{ opacity: 1 }} />
-          ) : (
-            <IconMicrophone size="3em" />
-          )}
+          {audioState === "recording"
+            ? (
+              <Loader
+                size="3em"
+                variant="bars"
+                color="white"
+                sx={{ opacity: 1 }}
+              />
+            )
+            : audioState === "transcribing"
+            ? <Loader size="2em" color="white" sx={{ opacity: 1 }} />
+            : <IconMicrophone size="3em" />}
         </Button>
       )}
     </div>
@@ -180,21 +180,21 @@ const RecorderControls = () => {
 
   return (
     <div className={classes.recorderControls}>
-      {showCancelButton ? (
-        <Button
-          sx={{ height: 36, borderRadius: "0px 8px 0px 0px" }}
-          compact
-          color="red"
-          variant="filled"
-          onClick={() => {
-            Recorder.stopRecording(false);
-          }}
-        >
-          <IconX size={px("1.1rem")} stroke={1.5} />
-        </Button>
-      ) : (
-        <UIControllerSettings />
-      )}
+      {showCancelButton
+        ? (
+          <Button
+            sx={{ height: 36, borderRadius: "0px 8px 0px 0px" }}
+            compact
+            color="red"
+            variant="filled"
+            onClick={() => {
+              Recorder.stopRecording(false);
+            }}
+          >
+            <IconX size={px("1.1rem")} stroke={1.5} />
+          </Button>
+        )
+        : <UIControllerSettings />}
 
       <Button
         sx={{ height: 36, borderRadius: "0px 0px 8px 0px" }}

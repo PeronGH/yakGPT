@@ -1,12 +1,12 @@
 import { useState } from "react";
 import {
+  Box,
   Button,
   Group,
-  Box,
   Loader,
-  Tabs,
-  px,
   PasswordInput,
+  px,
+  Tabs,
   TextInput,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";

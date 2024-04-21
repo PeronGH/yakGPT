@@ -2,11 +2,11 @@ import * as SpeechSDK from "microsoft-cognitiveservices-speech-sdk";
 
 export async function testKey(
   subscriptionKey: string,
-  serviceRegion?: string
+  serviceRegion?: string,
 ): Promise<boolean> {
   var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
     subscriptionKey,
-    serviceRegion || "eastus"
+    serviceRegion || "eastus",
   );
 
   // @ts-ignore - null is for audioConfig to prevent it from auto-speaking
@@ -25,7 +25,7 @@ export async function testKey(
           console.log(
             "Speech synthesized to speaker for text [",
             inputText,
-            "]."
+            "].",
           );
           resolve(true);
         } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
@@ -37,7 +37,7 @@ export async function testKey(
         synthesizer.close();
         console.log("Error:", error);
         resolve(false);
-      }
+      },
     );
   });
 
@@ -47,7 +47,7 @@ export async function testKey(
 function createSSML(
   text: string,
   voice: string = "en-US-JaneNeural",
-  style: string = "friendly"
+  style: string = "friendly",
 ): string {
   let expressAs = "";
 
@@ -85,7 +85,7 @@ export async function genAudio({
 }): Promise<string | null> {
   var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
     key,
-    region || "eastus"
+    region || "eastus",
   );
   speechConfig.speechSynthesisOutputFormat =
     SpeechSDK.SpeechSynthesisOutputFormat.Audio16Khz64KBitRateMonoMp3;
@@ -117,7 +117,7 @@ export async function genAudio({
         synthesizer.close();
         console.log("Error:", error);
         resolve(null);
-      }
+      },
     );
   });
 
@@ -126,12 +126,12 @@ export async function genAudio({
 
 export async function getVoices(
   key: string,
-  region?: string
+  region?: string,
 ): Promise<SpeechSDK.VoiceInfo[] | null> {
   try {
     const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
       key,
-      region || "eastus"
+      region || "eastus",
     );
     // @ts-ignore - null is for audioConfig to prevent it from auto-speaking
     const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, null);
@@ -146,7 +146,7 @@ export async function getVoices(
 const removeEmoji = (text: string) => {
   return text.replace(
     /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-    ""
+    "",
   );
 };
 
