@@ -1,10 +1,7 @@
-import { useState } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow as theme } from "react-syntax-highlighter/dist/cjs/styles/prism";
-
 import { IconCopy, IconCopyCheck } from "@tabler/icons-react";
-import { ActionIcon, createStyles } from "@mantine/core";
+import { ActionIcon, CopyButton, createStyles } from "@mantine/core";
 
 const useStyles = createStyles(() => ({
   code: {
@@ -26,7 +23,6 @@ const Code = ({
   className?: string;
 }) => {
   const { classes } = useStyles();
-  const [isCopied, setIsCopied] = useState(false);
   const languageMatch = /language-(\w+)/.exec(className || "");
 
   // If no newlines or language assume it's inline code
@@ -34,34 +30,21 @@ const Code = ({
     return <code>{children}</code>;
   }
 
-  const setCopied = () => {
-    setIsCopied(true);
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 1000);
-  };
-
   return (
     <div className={classes.code}>
       <div className={classes.icons}>
-        <CopyToClipboard text={children}>
-          {isCopied
-            ? (
-              <ActionIcon variant="transparent" size="sm" color="gray">
-                <IconCopyCheck />
-              </ActionIcon>
-            )
-            : (
-              <ActionIcon
-                variant="transparent"
-                size="sm"
-                onClick={() => setCopied()}
-                color="gray"
-              >
-                <IconCopy />
-              </ActionIcon>
-            )}
-        </CopyToClipboard>
+        <CopyButton value={children}>
+          {({ copied, copy }) => (
+            <ActionIcon
+              onClick={copy}
+              color="gray"
+              size="sm"
+              variant="transparent"
+            >
+              {copied ? <IconCopyCheck /> : <IconCopy />}
+            </ActionIcon>
+          )}
+        </CopyButton>
       </div>
 
       <SyntaxHighlighter language={languageMatch[1]} style={theme}>
