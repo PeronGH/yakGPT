@@ -109,7 +109,7 @@ const useStyles = createStyles((theme: MantineTheme) => ({
   },
   actionIconsWrapper: {
     display: "flex",
-    flexDirection: "column-reverse",
+    flexDirection: "column",
     alignItems: "flex-end",
 
     [`@media (min-width: ${theme.breakpoints.sm})`]: {
@@ -203,6 +203,17 @@ export default function ChatDisplay({ message }: { message: Message }) {
             />
           </div>
           <div className={classes.actionIconsWrapper}>
+            <CopyButton value={message.content}>
+              {({ copied, copy }) => (
+                <ActionIcon
+                  className={cx(classes.actionIcon, classes.topOfMessage)}
+                  onClick={copy}
+                  color="gray"
+                >
+                  {copied ? <IconCopyCheck /> : <IconCopy />}
+                </ActionIcon>
+              )}
+            </CopyButton>
             <ActionIcon
               className={cx(classes.actionIcon, classes.topOfMessage)}
               onClick={() => handleMainAction(message)}
@@ -217,17 +228,6 @@ export default function ChatDisplay({ message }: { message: Message }) {
             >
               <IconX />
             </ActionIcon>
-            <CopyButton value={message.content}>
-              {({ copied, copy }) => (
-                <ActionIcon
-                  className={cx(classes.actionIcon, classes.topOfMessage)}
-                  onClick={copy}
-                  color="gray"
-                >
-                  {copied ? <IconCopyCheck /> : <IconCopy />}
-                </ActionIcon>
-              )}
-            </CopyButton>
           </div>
         </div>
       </div>
