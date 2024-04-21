@@ -4,9 +4,12 @@ import type { Message } from "@/stores/Message";
 
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 import { createStyles, keyframes, MantineTheme } from "@mantine/core";
 import Code from "./Code";
+import { preprocessLaTeX } from "@/stores/utils";
 
 interface Props {
   message: Message;
@@ -107,10 +110,14 @@ const useStyles = createStyles((theme: MantineTheme) => ({
 export default ({ message, className }: Props) => {
   const { classes, cx } = useStyles();
 
+  // TODO: correctly handle \( \) and \[ \] inside code blocks
+  const content = preprocessLaTeX(message.content);
+
   return (
     <div className={cx(className, classes.container)}>
       <Markdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[(opt) => rehypeKatex({ ...opt, output: "mathml" })]}
         className={cx(classes.message, message.loading && classes.loading)}
         components={{
           code({ children, className }) {
@@ -122,7 +129,7 @@ export default ({ message, className }: Props) => {
           },
         }}
       >
-        {message.content}
+        {content}
       </Markdown>
     </div>
   );
