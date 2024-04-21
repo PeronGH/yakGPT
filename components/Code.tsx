@@ -27,10 +27,10 @@ const Code = ({
 }) => {
   const { classes } = useStyles();
   const [isCopied, setIsCopied] = useState(false);
-  const language = className?.replace("lang-", "");
+  const languageMatch = /language-(\w+)/.exec(className || "");
 
   // If no newlines or language assume it's inline code
-  if (!language || !children.includes("\n")) {
+  if (!languageMatch || !children.includes("\n")) {
     return <code>{children}</code>;
   }
 
@@ -64,7 +64,7 @@ const Code = ({
         </CopyToClipboard>
       </div>
 
-      <SyntaxHighlighter language={language} style={theme}>
+      <SyntaxHighlighter language={languageMatch[1]} style={theme}>
         {children}
       </SyntaxHighlighter>
     </div>

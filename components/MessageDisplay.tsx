@@ -2,7 +2,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import type { Message } from "@/stores/Message";
 
-import Markdown from "markdown-to-jsx";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { createStyles, keyframes, MantineTheme } from "@mantine/core";
 import Code from "./Code";
@@ -106,27 +107,23 @@ const useStyles = createStyles((theme: MantineTheme) => ({
 export default ({ message, className }: Props) => {
   const { classes, cx } = useStyles();
 
-  const renderMessage = () => {
-    const codeTags = (message.content.match(/```/g) || []).length;
-    // Add a closing code tag if there is an odd number of code tags
-    return codeTags % 2 === 0 ? message.content : message.content + "```";
-  };
-
   return (
     <div className={cx(className, classes.container)}>
-      <div className={cx(classes.message, message.loading && classes.loading)}>
-        <Markdown
-          options={{
-            overrides: {
-              code: {
-                component: Code,
-              },
-            },
-          }}
-        >
-          {renderMessage()}
-        </Markdown>
-      </div>
+      <Markdown
+        remarkPlugins={[remarkGfm]}
+        className={cx(classes.message, message.loading && classes.loading)}
+        components={{
+          code({ children, className }) {
+            return (
+              <Code className={className}>
+                {typeof children === "string" ? children : ""}
+              </Code>
+            );
+          },
+        }}
+      >
+        {message.content}
+      </Markdown>
     </div>
   );
 };
