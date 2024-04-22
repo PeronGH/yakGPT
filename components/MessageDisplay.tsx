@@ -110,7 +110,6 @@ const useStyles = createStyles((theme: MantineTheme) => ({
 export default ({ message, className }: Props) => {
   const { classes, cx } = useStyles();
 
-  // TODO: correctly handle \( \) and \[ \] inside code blocks
   const content = preprocessLaTeX(message.content);
 
   return (
