@@ -123,7 +123,13 @@ export default ({ message, className }: Props) => {
         ]}
         className={cx(classes.message, message.loading && classes.loading)}
         components={{
-          code: CodeComponent,
+          code({ node, children, className }) {
+            return (
+              <CodeComponent node={node} className={className}>
+                {children}
+              </CodeComponent>
+            );
+          },
         }}
       >
         {content}

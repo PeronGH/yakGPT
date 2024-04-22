@@ -1,7 +1,7 @@
 import { IconCopy, IconCopyCheck } from "@tabler/icons-react";
 import { ActionIcon, Code, CopyButton, createStyles } from "@mantine/core";
-import { FunctionComponent } from "react";
-import { collectNodeText } from "@/stores/utils";
+import { FunctionComponent, ReactNode } from "react";
+import { collectNodeText, SimpleNode } from "@/stores/utils";
 
 const useStyles = createStyles(() => ({
   container: {
@@ -15,14 +15,21 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-// TODO: Fix any type
-const CodeComponent: FunctionComponent<any> = (props) => {
+export interface Props {
+  node?: SimpleNode;
+  className?: string;
+  children: ReactNode;
+}
+
+const CodeComponent: FunctionComponent<Props> = (
+  { node, children, className },
+) => {
   const { classes } = useStyles();
 
-  const content = collectNodeText(props.node);
+  const content = node ? collectNodeText(node) : "";
 
-  if (!props.className?.includes("language-")) {
-    return <Code {...props} />;
+  if (!className?.includes("language-")) {
+    return <Code className={className}>{children}</Code>;
   }
 
   return (
@@ -42,11 +49,13 @@ const CodeComponent: FunctionComponent<any> = (props) => {
         </CopyButton>
       </div>
       <Code
-        {...props}
+        className={className}
         style={{
           paddingRight: 36,
         }}
-      />
+      >
+        {children}
+      </Code>
     </div>
   );
 };
