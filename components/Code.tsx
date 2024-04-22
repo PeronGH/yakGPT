@@ -25,11 +25,6 @@ const Code = ({
   const { classes } = useStyles();
   const languageMatch = /language-(\w+)/.exec(className || "");
 
-  // If no newlines or language assume it's inline code
-  if (!languageMatch || !children.includes("\n")) {
-    return <code>{children}</code>;
-  }
-
   return (
     <div className={classes.code}>
       <div className={classes.icons}>
@@ -47,7 +42,7 @@ const Code = ({
         </CopyButton>
       </div>
 
-      <SyntaxHighlighter language={languageMatch[1]} style={theme}>
+      <SyntaxHighlighter language={languageMatch?.[1]} style={theme}>
         {children}
       </SyntaxHighlighter>
     </div>
