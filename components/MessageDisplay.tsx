@@ -6,10 +6,10 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-
+import rehypeHighlight from "rehype-highlight";
 import { createStyles, keyframes, MantineTheme } from "@mantine/core";
-import Code from "./Code";
 import { preprocessLaTeX } from "@/stores/utils";
+import CodeComponent from "./Code";
 
 interface Props {
   message: Message;
@@ -117,16 +117,13 @@ export default ({ message, className }: Props) => {
     <div className={cx(className, classes.container)}>
       <Markdown
         remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[(opt) => rehypeKatex({ ...opt, output: "mathml" })]}
+        rehypePlugins={[
+          (opt) => rehypeKatex({ ...opt, output: "mathml" }),
+          (opt) => rehypeHighlight({ ...opt, detect: true }),
+        ]}
         className={cx(classes.message, message.loading && classes.loading)}
         components={{
-          code({ children, className }) {
-            return (
-              <Code className={className}>
-                {typeof children === "string" ? children : ""}
-              </Code>
-            );
-          },
+          code: CodeComponent,
         }}
       >
         {content}

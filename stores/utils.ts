@@ -36,3 +36,20 @@ export const preprocessLaTeX = (content: string) => {
   );
   return inlineProcessedContent;
 };
+
+export interface SimpleNode {
+  value?: string;
+  children?: SimpleNode[];
+}
+
+export function collectNodeText(node: SimpleNode): string {
+  if (node.value) {
+    return node.value;
+  }
+
+  if (node.children) {
+    return node.children.map(collectNodeText).join("");
+  }
+
+  return "";
+}

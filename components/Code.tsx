@@ -1,34 +1,34 @@
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { tomorrow as theme } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { IconCopy, IconCopyCheck } from "@tabler/icons-react";
-import { ActionIcon, CopyButton, createStyles } from "@mantine/core";
+import { ActionIcon, Code, CopyButton, createStyles } from "@mantine/core";
+import { FunctionComponent } from "react";
+import { collectNodeText } from "@/stores/utils";
 
 const useStyles = createStyles(() => ({
-  code: {
+  container: {
     position: "relative",
   },
   icons: {
     position: "absolute",
-    right: 5,
-    top: 5,
+    right: 6,
+    top: 6,
     zIndex: 1,
   },
 }));
 
-const Code = ({
-  children,
-  className,
-}: {
-  children: string; // For some reason this works but the "correct types" throw errors
-  className?: string;
-}) => {
+// TODO: Fix any type
+const CodeComponent: FunctionComponent<any> = (props) => {
   const { classes } = useStyles();
-  const languageMatch = /language-(\w+)/.exec(className || "");
+
+  const content = collectNodeText(props.node);
+
+  if (!props.className?.includes("language-")) {
+    return <Code {...props} />;
+  }
 
   return (
-    <div className={classes.code}>
+    <div className={classes.container}>
       <div className={classes.icons}>
-        <CopyButton value={children}>
+        <CopyButton value={content}>
           {({ copied, copy }) => (
             <ActionIcon
               onClick={copy}
@@ -41,12 +41,14 @@ const Code = ({
           )}
         </CopyButton>
       </div>
-
-      <SyntaxHighlighter language={languageMatch?.[1]} style={theme}>
-        {children}
-      </SyntaxHighlighter>
+      <Code
+        {...props}
+        style={{
+          paddingRight: 36,
+        }}
+      />
     </div>
   );
 };
 
-export default Code;
+export default CodeComponent;
