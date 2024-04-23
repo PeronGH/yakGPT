@@ -24,17 +24,16 @@ export const updateChatMessages = (
 // Copied from https://github.com/remarkjs/react-markdown/issues/785#issuecomment-1966495891
 export const preprocessLaTeX = (content: string) => {
   // Replace block-level LaTeX delimiters \[ \] with $$ $$
-  const blockProcessedContent = content.replace(
-    /(?<!`{3}.*?|`.*?)(\\\[.*?\\\])(?!.*?`{3}|.*?`)/gs,
-    (_, equation) => `$$${equation.slice(2, -2)}$$`,
-  );
 
+  const blockProcessedContent = content.replace(
+    /\\\[(.*?)\\\]/gs,
+    (_, equation) => `$$${equation}$$`,
+  );
   // Replace inline LaTeX delimiters \( \) with $ $
   const inlineProcessedContent = blockProcessedContent.replace(
-    /(?<!`{3}.*?|`.*?)(\\\(.*?\\\))(?!.*?`{3}|.*?`)/gs,
-    (_, equation) => `$${equation.slice(2, -2)}$`,
+    /\\\((.*?)\\\)/gs,
+    (_, equation) => `$${equation}$`,
   );
-
   return inlineProcessedContent;
 };
 
