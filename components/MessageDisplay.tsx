@@ -5,11 +5,15 @@ import type { Message } from "@/stores/Message";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import rehypeHighlight from "rehype-highlight";
+import remarkBreaks from "remark-breaks";
+import rehypeKatex, { Options as RehypeKatexOptions } from "rehype-katex";
+import rehypeHighlight, {
+  Options as RehypeHighlightOptions,
+} from "rehype-highlight";
 import { createStyles, keyframes, MantineTheme } from "@mantine/core";
 import { preprocessLaTeX } from "@/stores/utils";
 import CodeComponent from "./Code";
+import { useCallback, useMemo } from "react";
 
 interface Props {
   message: Message;
@@ -107,30 +111,28 @@ const useStyles = createStyles((theme: MantineTheme) => ({
     },
   },
 }));
+
+const rehypePlugins = [
+  (opt: RehypeKatexOptions) => rehypeKatex({ ...opt, output: "mathml" }),
+  (opt: RehypeHighlightOptions) => rehypeHighlight({ ...opt, detect: true }),
+];
+
 export default ({ message, className }: Props) => {
   const { classes, cx } = useStyles();
 
   // TODO: correctly handle \( \) and \[ \] inside code blocks
-  const content = preprocessLaTeX(message.content);
+  const content = useMemo(
+    () => preprocessLaTeX(message.content),
+    [message.content],
+  );
 
   return (
     <div className={cx(className, classes.container)}>
       <Markdown
-        remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[
-          (opt) => rehypeKatex({ ...opt, output: "mathml" }),
-          (opt) => rehypeHighlight({ ...opt, detect: true }),
-        ]}
+        remarkPlugins={[remarkGfm, remarkMath, remarkBreaks]}
+        rehypePlugins={rehypePlugins}
         className={cx(classes.message, message.loading && classes.loading)}
-        components={{
-          code({ node, children, className }) {
-            return (
-              <CodeComponent node={node} className={className}>
-                {children}
-              </CodeComponent>
-            );
-          },
-        }}
+        components={{ code: CodeComponent }}
       >
         {content}
       </Markdown>

@@ -18,7 +18,7 @@ const useStyles = createStyles(() => ({
 export interface Props {
   node?: SimpleNode;
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const CodeComponent: FunctionComponent<Props> = (
