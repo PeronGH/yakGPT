@@ -1,6 +1,6 @@
 import { IconCopy, IconCopyCheck } from "@tabler/icons-react";
 import { ActionIcon, Code, CopyButton, createStyles } from "@mantine/core";
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactNode, useMemo } from "react";
 import { collectNodeText, SimpleNode } from "@/stores/utils";
 
 const useStyles = createStyles(() => ({
@@ -26,7 +26,10 @@ const CodeComponent: FunctionComponent<Props> = (
 ) => {
   const { classes } = useStyles();
 
-  const content = node ? collectNodeText(node) : "";
+  const content = useMemo(
+    () => node ? collectNodeText(node) : "",
+    [node],
+  );
 
   if (!className?.includes("language-")) {
     return <Code className={className}>{children}</Code>;
