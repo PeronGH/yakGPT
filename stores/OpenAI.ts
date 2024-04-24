@@ -141,12 +141,10 @@ export async function streamCompletion(
   const payload = JSON.stringify({
     messages: submitMessages.map(({ role, content }) => ({ role, content })),
     stream: true,
-    ...{
-      ...submitParams,
-      logit_bias: JSON.parse(params.logit_bias || "{}"),
-      // 0 == unlimited
-      max_tokens: params.max_tokens || undefined,
-    },
+    ...submitParams,
+    logit_bias: JSON.parse(params.logit_bias || "{}"),
+    // 0 == unlimited
+    max_tokens: params.max_tokens || undefined,
   });
 
   let buffer = "";

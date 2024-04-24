@@ -149,11 +149,23 @@ export const refreshModels = async () => {
 
   try {
     const modelIDs = await fetchModels(apiKey);
-    // Use only models that start with gpt-3.5 or gpt-4
+    // Use only models that does not start with non-chat prefixes
+    const excludedPrefixes = [
+      "whisper-",
+      "ada-",
+      "babbage-",
+      "curie-",
+      "davinci-",
+      "dall-e-",
+      "tts-",
+      "text-",
+    ] as const;
+
     update({
-      modelChoicesChat: modelIDs.filter(
-        (id) => id.startsWith("gpt-3.5") || id.startsWith("gpt-4"),
-      ),
+      modelChoicesChat: modelIDs
+        .filter((id) =>
+          !excludedPrefixes.some((prefix) => id.startsWith(prefix))
+        ),
     });
   } catch (error) {
     console.error("Failed to fetch models:", error);
