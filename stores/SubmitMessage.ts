@@ -104,6 +104,12 @@ export const submitMessage = async (message: Message) => {
   };
   const settings = get().settingsForm;
   const messages: Message[] = [...chat.messages];
+  if (
+    messages.at(-1)?.role === "assistant" &&
+    !messages.at(-1)?.content
+  ) {
+    messages.pop();
+  }
   if (settings.system_message) {
     messages.unshift({
       id: uuidv4(),
