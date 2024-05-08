@@ -86,6 +86,7 @@ export const submitMessage = async (message: Message) => {
     const activeModel = get().settingsForm.model;
     const { prompt: promptCost, completion: completionCost } =
       getModelInfo(activeModel).costPer1kTokens;
+
     set((state) => ({
       apiState: "idle",
       chats: state.chats.map((c) => {
@@ -102,6 +103,10 @@ export const submitMessage = async (message: Message) => {
     }));
   };
   const settings = get().settingsForm;
+  const messages: Message[] = [
+    { id: "system-message", role: "system", content: settings.system_message },
+    ...chat.messages,
+  ];
 
   const abortController = new AbortController();
   set((state) => ({
@@ -112,7 +117,7 @@ export const submitMessage = async (message: Message) => {
 
   // ASSISTANT REQUEST
   await streamCompletion(
-    chat.messages,
+    messages,
     settings,
     apiKey,
     abortController,

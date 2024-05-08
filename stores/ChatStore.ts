@@ -41,6 +41,7 @@ interface SettingsForm {
   frequency_penalty: number;
   logit_bias: string;
   auto_title: boolean;
+  system_message: string;
   // Whisper
   auto_detect_language: boolean;
   spoken_language: string;
@@ -70,6 +71,7 @@ export const defaultSettings = {
   frequency_penalty: 0,
   logit_bias: "",
   auto_title: true,
+  system_message: "You are YakGPT, a helpful assistant.",
   // Whisper
   auto_detect_language: false,
   spoken_language: "English (en)",

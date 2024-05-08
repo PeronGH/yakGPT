@@ -12,6 +12,7 @@ import {
   Switch,
   Tabs,
   Text,
+  Textarea,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -263,6 +264,13 @@ export default function SettingsModal({ close }: { close: () => void }) {
                     label="Logit Bias"
                     placeholder='{"token_id": 0.5, "token_id_2": -0.5}'
                     {...form.getInputProps("logit_bias")}
+                  />
+
+                  <Textarea
+                    mt="lg"
+                    label="System Message"
+                    placeholder="You are a helpful assistant."
+                    {...form.getInputProps("system_message")}
                   />
                 </Accordion.Panel>
               </Accordion.Item>

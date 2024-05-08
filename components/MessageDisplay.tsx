@@ -13,7 +13,7 @@ import rehypeHighlight, {
 import { createStyles, keyframes, MantineTheme } from "@mantine/core";
 import { preprocessLaTeX } from "@/stores/utils";
 import CodeComponent from "./Code";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 interface Props {
   message: Message;
