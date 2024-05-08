@@ -193,25 +193,24 @@ export const submitMessage = async (message: Message) => {
       chat.title === undefined &&
       numWords >= 4
     ) {
-      const msg = {
-        id: uuidv4(),
-        content:
-          `Describe the following conversation snippet in 3 words or less.
-              >>>
-              Hello
-              ${
-            chat.messages
-              .slice(1)
-              .map((m) => m.content)
-              .join("\n")
-          }
-              >>>
-                `,
-        role: "system",
-      } as Message;
+      const messages: Message[] = [
+        {
+          id: uuidv4(),
+          content:
+            `Describe the following conversation snippet in 3 words or less.`,
+          role: "system",
+        },
+        ...chat.messages,
+        {
+          id: uuidv4(),
+          content:
+            "Describe the above conversation snippet in 3 words or less.",
+          role: "user",
+        },
+      ];
 
       await streamCompletion(
-        [msg, ...chat.messages.slice(1)],
+        messages,
         settings,
         apiKey,
         undefined,
