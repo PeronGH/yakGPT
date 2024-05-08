@@ -103,10 +103,14 @@ export const submitMessage = async (message: Message) => {
     }));
   };
   const settings = get().settingsForm;
-  const messages: Message[] = [
-    { id: "system-message", role: "system", content: settings.system_message },
-    ...chat.messages,
-  ];
+  const messages: Message[] = [...chat.messages];
+  if (settings.system_message) {
+    messages.unshift({
+      id: uuidv4(),
+      content: settings.system_message,
+      role: "system",
+    });
+  }
 
   const abortController = new AbortController();
   set((state) => ({
